@@ -7,6 +7,7 @@ use App\Models\Borrow;
 use App\Models\Genre;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SiteController extends Controller
@@ -20,7 +21,7 @@ class SiteController extends Controller
     public function singleBook(int $id)
     {
         $book = Book::findOrFail($id);
-        $stock = Borrow::where('book_id', $book->id)->where('status','<>','RETURNED')->count();
+        $stock = Borrow::where('book_id', $book->id)->where('status', '<>', 'RETURNED')->count();
         return view('detail-book', compact(['book', 'stock']));
     }
 
@@ -37,8 +38,8 @@ class SiteController extends Controller
     {
         ini_set('max_execution_time', 180);
         $readerId = Auth::id();
-        $check = Borrow::where('book_id',$id)->where('reader_id',$readerId)->count();
-        if($check > 0){
+        $check = Borrow::where('book_id', $id)->where('reader_id', $readerId)->count();
+        if ($check > 0) {
             return response()->json([
                 'error' => "You can't take this book,because you have a request"
             ], 500);
@@ -58,5 +59,31 @@ class SiteController extends Controller
             ], 500);
         }
     }
+
+    public function aboutUs()
+    {
+        return view('about-us');
+    }
+
+    public function profile()
+    {
+
+    }
+
+    public function myBorrowList()
+    {
+        $userId = Auth::id();
+        $borrowList = Borrow::where('reader_id', $userId)->get();
+        foreach ($borrowList as $borrow) {
+            $borrow['book_name'] = Book::find($borrow->book_id);
+        }
+        return view('my-borrows', compact('borrowList'));
+    }
+
+    public function search(Request $request)
+    {
+        dd($request->all());
+    }
+
 
 }

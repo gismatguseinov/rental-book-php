@@ -4,12 +4,11 @@
         <div class="container-fluid overflow-hidden">
             <div class="row gy-5 mt-0">
                 @foreach($books as $book)
-                    <div class="card border-1 m-4" style="width: 18rem;">
-                        <img style="object-fit: contain;height: 150px;" class="img-thumbnail"
-                             src="{{asset($book->cover_image)}}"
+                    <div class="card mx-lg-5" style="width: 14rem;">
+                        <img src="{{asset($book->cover_image)}}" style="width: auto;height: 240px"
                              class="card-img-top" alt="{{$book->title}}">
                         <div class="card-body">
-                            <h5 class="card-title"> {{$book->title}}</h5>
+                            <h5 class="card-title">{{$book->title}}</h5>
                             @foreach($book->genres as $genre)
                                 <p class="badge bg-{{$genre->style}}">{{$genre->name}}</p>
                             @endforeach
@@ -19,6 +18,7 @@
                             </div>
                         </div>
                     </div>
+
                 @endforeach
             </div>
         </div>

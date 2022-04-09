@@ -20,10 +20,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'auth'], function () {
+
     Route::get('/', [SiteController::class, 'index'])->name('site.index');
     Route::get('/books', [SiteController::class, 'getBooks'])->name('site.books');
     Route::get('/books/{id}', [SiteController::class, 'singleBook'])->name('site.single-book');
     Route::post('/books/{id}/borrow', [SiteController::class, 'borrowBook'])->name('site.borrow-book');
+    Route::get('/my-borrows', [SiteController::class, 'myBorrowList'])->name('site.borrow-list');
+    Route::get('/about-us', [SiteController::class, 'aboutUs'])->name('site.about-us');
+    Route::get('/search', [SiteController::class, 'search'])->name('site.search');
 
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -47,10 +51,14 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::prefix('/borrows')->group(function () {
             Route::get('/', [DashboardController::class, 'borrow'])->name('dashboard.borrows');
+            Route::get('/late-borrows', [DashboardController::class, 'returnAndReject'])->name('dashboard.return-reject-borrows');
+            Route::post('/reject/{id}', [BookController::class, 'reject'])->name('dashboard.reject-borrow');
+            Route::post('/accept/{id}', [BookController::class, 'accept'])->name('dashboard.accept-borrow');
+            Route::post('/return/{id}', [BookController::class, 'returnBorrow'])->name('dashboard.return-borrow');
 
         });
 
-        Route::post('/book/{id}/accept', [BookController::class, 'accept'])->name('dashboard.accept-borrow');
+
     });
 });
 Auth::routes();

@@ -1,6 +1,15 @@
 @extends('dashboard.layouts.app')
 @section('content')
     <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Home</a> /</li>
+                <li class="breadcrumb-item active"><a
+                        href="{{route('dashboard.borrows')}}">Requests</a></li>
+                <li class="breadcrumb-item"><a href="{{route('dashboard.return-reject-borrows')}}">Returned Rejected</a>
+                </li>
+            </ol>
+        </nav>
         <div class="row">
             <h1>All Borrow Requests</h1>
             @foreach($borrows as $borrow)
@@ -28,7 +37,7 @@
                         <h3>{{$borrow->reader_name->name}}</h3>
                         <h5 class="card-title">{{$borrow->book_name->title}}</h5>
                         <p class="card-text">{{$borrow->book_name->descroption}}</p>
-                        <button id="{{$borrow->id}}" class="btn btn-success">Return</button>
+                        <button id="{{$borrow->id}}" class="btn return btn-success">Return</button>
                     </div>
                 </div>
             @endforeach
@@ -84,6 +93,46 @@
                 });
                 $('input[name=deadline]').val('')
             })
+
+        })
+
+        $('.reject').click(function () {
+            let id = this.id;
+            let url = '{{route('dashboard.reject-borrow',':id')}}'
+            url = url.replace(':id', id);
+            $.ajax({
+                url: url,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                },
+                method: 'POST',
+                success: function (response) {
+                    console.log(response)
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
+
+        })
+
+        $('.return').click(function () {
+            let id = this.id;
+            let url = '{{route('dashboard.return-borrow',':id')}}'
+            url = url.replace(':id', id);
+            $.ajax({
+                url: url,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                },
+                method: 'POST',
+                success: function (response) {
+                    console.log(response)
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            });
 
         })
     </script>

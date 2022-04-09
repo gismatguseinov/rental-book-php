@@ -1,5 +1,6 @@
 @extends('dashboard.layouts.app')
 @section('content')
+
     <form id="addBook" class="row g-3" data-action="{{ route('dashboard.add-book') }}" method="POST"
           enctype="multipart/form-data">
         @csrf
@@ -71,9 +72,10 @@
                         {{--                        {{route('dashboard.destroy-book',$book->id)}}--}}
                         <div class="col-6 descr">
                             <p>Title:{{$book->title}}</p>
-                            <span>Authors:{{$book->authors}}</span>
-                            <a class="btn btn-success" href="{{route('dashboard.single-book',$book->id)}}">Edit</a>
-                           <button id="{{$book->id}}" class="btn btn-warning">Delete</button>
+                            <p>Authors:{{$book->authors}}</p>
+                            <a class="btn btn-sm btn-success"
+                               href="{{route('dashboard.single-book',$book->id)}}">Edit</a>
+                            <button id="{{$book->id}}" class="btn btn-sm btn-warning">Delete</button>
                         </div>
                         <div class="col-8 genres">
                             @foreach($book->genres as $genre)

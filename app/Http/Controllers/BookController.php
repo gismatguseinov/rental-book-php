@@ -84,6 +84,20 @@ class BookController extends Controller
 
     }
 
+    public function reject(int $id): JsonResponse
+    {
+        $requestManagedBy = Auth::id();
+        $borrow = Borrow::find($id);
+        $borrow?->update([
+            'status' => 'REJECTED',
+            'request_processed_at' => $requestManagedBy
+        ]);
+        return response()->json([
+            'status' => true
+        ], 200);
+
+    }
+
     public function singleBook(int $id)
     {
         $book = Book::find($id);
@@ -114,7 +128,7 @@ class BookController extends Controller
                 'title' => $validated['title'],
                 'authors' => $validated['authors'],
                 'description' => $validated['description'],
-                'cover_image' => '/storage/' . $path,
+                'cover_image' => $coverImage,
                 'pages' => $validated['pages'],
                 'language_code' => $validated['language_code'],
                 'isbn' => $validated['isbn'],
@@ -146,6 +160,27 @@ class BookController extends Controller
         } else {
             return response()->json([
                 'err' => 'This book is borrowed'
+            ], 500);
+        }
+    }
+
+    public function returnBorrow(int $id)
+    {
+        $borrow = Borrow::find($id);
+        $returnAt = Carbon::now();
+        $userId = Auth::id();
+        $update = $borrow->update([
+            'status' => 'RETURNED',
+            'returned_at' => $returnAt,
+            'return_managed_by' => $userId
+        ]);
+        if ($update) {
+            return response()->json([
+                'status' => true
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false
             ], 500);
         }
     }

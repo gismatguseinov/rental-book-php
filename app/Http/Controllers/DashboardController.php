@@ -34,7 +34,7 @@ class DashboardController extends Controller
     public function borrow()
     {
         $borrows = Borrow::where('status', 'PENDING')->get();
-        $managedBorrows = Borrow::where('request_managed_by', Auth::id())->get();
+        $managedBorrows = Borrow::where('request_managed_by', Auth::id())->where('status', 'ACCEPTED')->get();
         foreach ($borrows as $borrow) {
             $borrow['reader_name'] = User::select('id', 'name')->find($borrow->reader_id);
             $borrow['book_name'] = Book::find($borrow->book_id);
@@ -44,6 +44,27 @@ class DashboardController extends Controller
             $borrow['book_name'] = Book::find($borrow->book_id);
         }
         return view('dashboard.borrow', compact(['borrows', 'managedBorrows']));
+    }
+
+    public function returnAndReject()
+    {
+        $rejected = Borrow::where([
+            'status' => 'REJECTED',
+            'request_managed_by' => Auth::id()
+        ])->get();
+        $returned = Borrow::where([
+            'status' => 'RETURNED',
+            'request_managed_by' => Auth::id()
+        ])->get();
+        foreach ($rejected as $borrow) {
+            $borrow['reader_name'] = User::select('id', 'name')->find($borrow->reader_id);
+            $borrow['book_name'] = Book::find($borrow->book_id);
+        }
+        foreach ($returned as $borrow) {
+            $borrow['reader_name'] = User::select('name')->find($borrow->reader_id);
+            $borrow['book_name'] = Book::find($borrow->book_id);
+        }
+        return view('dashboard.borrow-list', compact('rejected', 'returned'));
     }
 
 

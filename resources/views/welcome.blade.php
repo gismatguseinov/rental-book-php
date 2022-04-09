@@ -8,7 +8,10 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
+    <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/btsrap.js')}}"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
     <!-- Styles -->
     <style>
         /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
@@ -397,7 +400,8 @@
         body {
             font-family: 'Nunito', sans-serif;
         }
-        .data{
+
+        .data {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
@@ -405,21 +409,31 @@
             align-items: center;
             align-content: center;
         }
-        .data-item{
+
+        .data-item {
             margin-left: 50px;
         }
     </style>
 </head>
-<body class="antialiased">
-<div
-    class="relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center py-4 sm:pt-0">
+<body>
+
+
+<div class="container-fluid flex items-top justify-center min-h-screen bg-gray-100 sm:items-center py-4 sm:pt-0">
     @if (Route::has('login'))
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
             @auth
-                <a href="{{ url('/books') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">All Books</a>
-                <a href="{{ url('/borrow') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">My Borrow</a>
-                <a href="{{ url('/profile') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">My
-                    Profile</a>
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container-fluid d-flex px-6">
+                            <a href="{{ url('/books') }}" class="px-6">All Books</a>
+                            <a href="{{ route('site.borrow-list') }}" class="px-6">My Borrow</a>
+                            <a href="{{ route('site.about-us') }}" class="px-6">About
+                                Us</a>
+{{--                            <a href="{{ route('site.user-profile') }}" class="px-6">About--}}
+{{--                                Us</a>--}}
+                        </div>
+                    </nav>
+                </div>
             @else
                 <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
@@ -429,36 +443,48 @@
             @endauth
         </div>
     @endif
-
-
     <div class="container">
-        <div class="data">
-            <div class="col-8 ">
-                <div class="data-item">
-                    <h1>Book count</h1>
-                    <p>{{$booksCount }}</p>
-                </div>
-            </div>
-            <div class="col-8 ">
-                <div class="data-item">
-                    <h1>User count</h1>
-                    <p>{{$userCount }}</p>
-                </div>
-            </div>
-            <div class="col-8 ">
-                <div class="data-item">
-                    <h1>Genre count</h1>
-                    <p>{{$genreCount }}</p>
-                </div>
-            </div>
-            <div class="col-8 ">
-                <div class="data-item">
-                    <h1>Borrow count</h1>
-                    <p>{{$borrows }}</p>
+        <div class="row">
+            <div class="col-md-5 mx-auto">
+                <div class="small fw-light">search input with icon</div>
+                <div class="input-group">
+                    <input class="form-control border-end-0 border rounded-pill" type="search" value="search" id="example-search-input">
+                    <span class="input-group-append">
+                    <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
                 </div>
             </div>
         </div>
     </div>
+    <div class="data">
+        <div class="col-8 ">
+            <div class="data-item">
+                <h1>Book count</h1>
+                <p>{{$booksCount }}</p>
+            </div>
+        </div>
+        <div class="col-8 ">
+            <div class="data-item">
+                <h1>User count</h1>
+                <p>{{$userCount }}</p>
+            </div>
+        </div>
+        <div class="col-8 ">
+            <div class="data-item">
+                <h1>Genre count</h1>
+                <p>{{$genreCount }}</p>
+            </div>
+        </div>
+        <div class="col-8 ">
+            <div class="data-item">
+                <h1>Borrow count</h1>
+                <p>{{$borrows }}</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 </div>
