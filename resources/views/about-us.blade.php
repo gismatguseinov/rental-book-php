@@ -4,7 +4,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-7">
                 <div class="card p-3 py-4">
-                    <div style="margin-left: 44%" class="text-center">
+                    <div  class="text-center">
                         <img src="{{asset('about_us.jpg')}}" width="100"
                              class="rounded-circle">
                     </div>

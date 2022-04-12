@@ -3,8 +3,6 @@
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a aria-current="page"
-                                               href="{{route('dashboard.index')}}">Home</a></li>
                 <li class="breadcrumb-item"><a
                         href="{{route('dashboard.borrows')}}">Requests</a> / </li>
                 <li class="breadcrumb-item active"><a aria-current="page"
@@ -41,9 +39,8 @@
                         <img src="{{asset($returnedB->book_name->cover_image)}}" style="width: auto;height: 240px"
                              class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h3>{{$returnedB->reader_name->name}}</h3>
                             <h5 class="card-title">{{$returnedB->book_name->title}}</h5>
-                            <p class="card-text">{{$returnedB->book_name->descroption}}</p>
+                            <p>User : {{$returnedB->reader_name->name}}</p>
                         </div>
                     </div>
                 @endforeach

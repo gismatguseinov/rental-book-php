@@ -28,34 +28,41 @@
     </form>
 
     <h1>All Genres</h1>
-    <div class="col-8">
-        <ul class="list-group">
-            @if(count($genres) > 0)
-                @foreach($genres as $genre)
-                    <li class="list-group-item d-flex justify-content-around">
-                        <div class="col-4">
-                            <span>{{$genre->name}}</span>
-                            <span class="">{{$genre->style}}</span>
-                        </div>
+    <table class="table table-hover table-sm">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Style</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if(count($genres) > 0)
+            @foreach($genres as $genre)
+                <tr>
+                    <th scope="row">{{$genre->id}}</th>
+                    <td>{{$genre->name}}</td>
+                    <td>{{$genre->style}}</td>
+                    <td>
                         <div class="col-4">
                             <button data-bs-toggle="modal" data-bs-target="#myModal" id="{{$genre->id}}"
-                                    class="btn edit btn-primary">Edit
+                                    class="btn btn-sm edit btn-primary">Edit
                             </button>
                             <button id="{{$genre->id}}"
-                                    class="btn delete btn-danger">Delete
+                                    class="btn btn-sm delete btn-danger">Delete
                             </button>
                         </div>
-                    </li>
-                @endforeach
-            @else
-                <div class="container-fluid">
-                    <div>
-                        <span style="text-align: center">No genre added</span>
-                    </div>
-                </div>
-            @endif
-        </ul>
-    </div>
+                    </td>
+                </tr>
+            @endforeach
+        @else
+            <tr>
+                <th>Data Not found</th>
+            </tr>
+        @endif
+        </tbody>
+    </table>
 
     <div class="modal" id="myModal">
         <div class="modal-dialog modal-dialog-centered">
@@ -63,7 +70,7 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Enter deadline</h4>
+                    <h4 class="modal-title">Edit Genre</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
@@ -106,11 +113,30 @@
                 },
                 success: function (response) {
                     if (response.status === true) {
-                        window.location.replace('{{route('dashboard.genres')}}')
+                        $.notify({
+                            title: "<strong>Info</strong>",
+                            message: "Successfully Accepted"
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }
+                        })
+                        setInterval(window.location.replace('{{route('dashboard.genres')}}'), 2000)
                     }
                 },
                 error: function (response) {
-                    console.log(response)
+                    let value = $.parseJSON(response.responseText);
+                    console.log(value)
+                    $.notify({
+                        title: "<strong>Error</strong>",
+                        message: value.message
+                    }, {
+                        animate: {
+                            enter: "animate fadeInUp",
+                            exit: "animate fadeOutDown"
+                        }, type: 'danger'
+                    })
                 },
             });
         })
@@ -153,11 +179,29 @@
                 },
                 success: function (response) {
                     if (response.status === true) {
-                        window.location.replace('{{route('dashboard.genres')}}')
+                        $.notify({
+                            title: "<strong>Info</strong>",
+                            message: "Successfully Accepted"
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }
+                        })
+                        setInterval(window.location.replace('{{route('dashboard.genres')}}'), 2000)
                     }
                 },
                 error: function (err) {
-                    console.log(err)
+                    let value = $.parseJSON(err.responseText);
+                    $.notify({
+                        title: "<strong>Error</strong>",
+                        message: value.message
+                    }, {
+                        animate: {
+                            enter: "animate fadeInUp",
+                            exit: "animate fadeOutDown"
+                        }, type: 'danger'
+                    })
                 }
             })
         })
@@ -174,11 +218,30 @@
                 },
                 success: function (response) {
                     if (response.status === true) {
-                        window.location.replace('{{route('dashboard.genres')}}')
+                        $.notify({
+                            title: "<strong>Info</strong>",
+                            message: "Successfully Deleted"
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }
+                        })
+                        setInterval(window.location.replace('{{route('dashboard.genres')}}'), 2000)
                     }
                 },
                 error: function (err) {
-                    console.log(err)
+                    let value = $.parseJSON(err.responseText);
+                    console.log(value)
+                    $.notify({
+                        title: "<strong>Error</strong>",
+                        message: value.message
+                    }, {
+                        animate: {
+                            enter: "animate fadeInUp",
+                            exit: "animate fadeOutDown"
+                        }, type: 'danger'
+                    })
                 }
             })
         })

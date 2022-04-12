@@ -4,7 +4,7 @@
         <div class="row">
             <h1 class="pb-2 ml-2">My borrow requests</h1>
             @if(count($borrowList) === 0)
-                <span>No found rejected borrows</span>
+                <span>No found borrows</span>
             @else
                 @foreach($borrowList as $borrow)
                     <div class="card mx-lg-5" style="width: 13rem;">

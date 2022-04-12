@@ -40,7 +40,7 @@ class BookController extends Controller
             ]);
             $id = DB::getPdo()->lastInsertId();;
             foreach ($validated['genres'] as $genre) {
-                DB::table('book_genre')->insert([
+                DB::table('book_genres')->insert([
                     'book_id' => $id,
                     'genre_id' => $genre,
                     'created_at' => Carbon::now(),
@@ -102,8 +102,17 @@ class BookController extends Controller
     {
         $book = Book::find($id);
         $allGenres = Genre::all();
+        $selectedGenres = $book->genres;
+        foreach ($allGenres as $key => $allGenre) {
+            foreach ($selectedGenres as $index => $selectedGenre) {
+                if ($selectedGenre->id === $allGenre->id) {
+                    unset($allGenres[$key]);
+                }
+            }
+        }
+//        dd($allGenres,$selectedGenres);
         if ($book) {
-            return view('dashboard.book-edit', compact(['book', 'allGenres']));
+            return view('dashboard.book-edit', compact(['book', 'allGenres', 'selectedGenres']));
         }
     }
 
@@ -150,10 +159,9 @@ class BookController extends Controller
 
     public function delete(int $id)
     {
-        $book = Book::find($id);
-        $relation = Borrow::where('book_id')->where('status', '<>', 'RETURNED')->count();
-        if ($relation === 0 && $book) {
-            $book->delete();
+        $relation = Borrow::where('book_id', $id)->where('status', '<>', 'RETURNED')->count();
+        if ($relation === 0) {
+            $book = DB::table('books')->where('id', $id)->delete();
             return response()->json([
                 'status' => true
             ], 200);

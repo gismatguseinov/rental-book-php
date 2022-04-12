@@ -75,7 +75,7 @@
                             <p>Authors:{{$book->authors}}</p>
                             <a class="btn btn-sm btn-success"
                                href="{{route('dashboard.single-book',$book->id)}}">Edit</a>
-                            <button id="{{$book->id}}" class="btn btn-sm btn-warning">Delete</button>
+                            <button id="{{$book->id}}" class="btn btn-sm deleteBook btn-warning">Delete</button>
                         </div>
                         <div class="col-8 genres">
                             @foreach($book->genres as $genre)
@@ -99,7 +99,6 @@
             $('#addBook').on('submit', function (event) {
                 event.preventDefault();
                 let formData = new FormData(this)
-                console.log(formData)
                 let url = $('#addBook').attr('data-action');
                 formData.append('_token', '{{ csrf_token() }}');
                 $.ajax({
@@ -112,13 +111,71 @@
                     processData: false,
                     success: function (response) {
                         if (response.status === true) {
-                            window.location.replace('{{route('dashboard.books')}}')
+                            $.notify({
+                                title: "<strong>Info</strong>",
+                                message: "Successfully Added"
+                            }, {
+                                animate: {
+                                    enter: "animate fadeInUp",
+                                    exit: "animate fadeOutDown"
+                                }
+                            })
+                            setInterval(window.location.replace('{{route('dashboard.books')}}'), 2500)
+
                         }
                     },
                     error: function (err) {
-                        console.log(err)
+                        let value = $.parseJSON(err.responseText);
+                        $.notify({
+                            title: "<strong>Error</strong>",
+                            message: value.message
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }, type: 'danger'
+                        })
                     }
                 });
+            });
+
+            $('.deleteBook').on('click', function () {
+                let id = this.id;
+                let url = '{{route('dashboard.destroy-book',':id')}}'
+                url = url.replace(':id', id);
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function (response) {
+                        if (response.status === true) {
+                            $.notify({
+                                title: "<strong>Info</strong>",
+                                message: "Delete"
+                            }, {
+                                animate: {
+                                    enter: "animate fadeInUp",
+                                    exit: "animate fadeOutDown"
+                                }
+                            })
+                            setInterval(window.location.replace('{{route('dashboard.books')}}'), 2500)
+                        }
+                    },
+                    error: function (err) {
+                        let value = $.parseJSON(err.responseText);
+                        $.notify({
+                            title: "<strong>Error</strong>",
+                            message: value.err
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }, type: 'danger'
+                        })
+                    }
+                })
             });
         })
     </script>

@@ -3,7 +3,6 @@
     <div class="container-fluid">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('dashboard.index')}}">Home</a> /</li>
                 <li class="breadcrumb-item active"><a
                         href="{{route('dashboard.borrows')}}">Requests</a></li>
                 <li class="breadcrumb-item"><a href="{{route('dashboard.return-reject-borrows')}}">Returned Rejected</a>
@@ -85,7 +84,18 @@
                     },
                     method: 'POST',
                     success: function (response) {
-                        console.log(response)
+                        if (response.status === true) {
+                            $.notify({
+                                title: "<strong>Info</strong>",
+                                message: "Successfully Accepted"
+                            }, {
+                                animate: {
+                                    enter: "animate fadeInUp",
+                                    exit: "animate fadeOutDown"
+                                }
+                            })
+                            setInterval(window.location.replace('{{route('dashboard.borrows')}}'), 2000)
+                        }
                     },
                     error: function (err) {
                         console.log(err)
@@ -107,7 +117,18 @@
                 },
                 method: 'POST',
                 success: function (response) {
-                    console.log(response)
+                    if (response.status === true) {
+                        $.notify({
+                            title: "<strong>Info</strong>",
+                            message: "Successfully Rejected"
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }, type: 'danger'
+                        })
+                        setInterval(window.location.replace('{{route('dashboard.borrows')}}'), 2000)
+                    }
                 },
                 error: function (err) {
                     console.log(err)
@@ -127,7 +148,18 @@
                 },
                 method: 'POST',
                 success: function (response) {
-                    console.log(response)
+                    if (response.status === true) {
+                        $.notify({
+                            title: "<strong>Info</strong>",
+                            message: "Successfully Returned"
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }
+                        })
+                        setInterval(window.location.replace('{{route('dashboard.borrows')}}'), 2000)
+                    }
                 },
                 error: function (err) {
                     console.log(err)

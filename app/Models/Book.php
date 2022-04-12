@@ -32,7 +32,7 @@ class Book extends Model
 
     public function genres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Genre::class, 'book_genre', 'book_id', 'genre_id',)->withPivot(['book_id', 'genre_id']);
+        return $this->belongsToMany(Genre::class, 'book_genres', 'book_id', 'genre_id',)->withPivot(['book_id', 'genre_id']);
     }
 
     public function activeBorrows(): HasMany

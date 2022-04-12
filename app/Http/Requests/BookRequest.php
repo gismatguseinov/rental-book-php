@@ -27,11 +27,11 @@ class BookRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'authors' => ['required', 'string', 'max:255'],
             'description' => ['string', 'min:150'],
-            'released_at' => ['required','string'],
+            'released_at' => ['required', 'string'],
             'cover_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif,svg'],
             'pages' => ['required', 'integer'],
             'language_code' => ['required', 'max:3'],
-            'isbn' => ['required', 'max:13'],
+            'isbn' => ['required', 'max:13', 'regex:/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/i'],
             'in_stock' => ['integer', 'required'],
             'genres' => ['required']
         ];

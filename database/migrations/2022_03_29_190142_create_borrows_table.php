@@ -22,8 +22,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('book_id');
             $table->foreign('book_id')
                 ->references('id')
-                ->on('books');
-//                ->onDelete('cascade');
+                ->on('books')
+                ->onDelete('cascade');
             $table->enum('status', ['PENDING', 'ACCEPTED', 'REJECTED', 'RETURNED']);
             $table->date('request_processed_at')->nullable();
             $table->unsignedBigInteger('request_managed_by')->nullable();

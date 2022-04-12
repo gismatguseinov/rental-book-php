@@ -25,13 +25,10 @@
             <label for="genres[]" class="form-label">Genre</label>
             <select class="form-control" id="genres" name="genres[]" multiple="multiple">
                 @foreach($allGenres as $genre)
-                    @foreach($book->genres as $bookGenre)
-                        @if($genre->name === $bookGenre->name)
-                            <option selected value="{{$genre->style}}">{{$genre->name}}</option>
-                        @else
-                            <option value="{{$genre->style}}">{{$genre->name}}</option>
-                        @endif
-                    @endforeach
+                    <option value="{{$genre->style}}">{{$genre->name}}</option>
+                @endforeach
+                @foreach($selectedGenres as $selectedGenre)
+                    <option selected value="{{$selectedGenre->style}}">{{$selectedGenre->name}}</option>
                 @endforeach
             </select>
         </div>
@@ -51,7 +48,7 @@
                 @if($book->language_code === 'ru')
                     <option value="hu">HU</option>
                     <option value="en">EN</option>
-                    <option selected value="ru">RU</optionselected>
+                    <option selected value="ru">RU</option>
                 @endif
 
 
@@ -101,11 +98,31 @@
                     processData: false,
                     success: function (response) {
                         if (response.status === true) {
-                            window.location.replace('{{route('dashboard.books')}}')
+                            $.notify({
+                                title: "<strong>Info</strong>",
+                                message: "Successfully updated"
+                            }, {
+                                animate: {
+                                    enter: "animate fadeInUp",
+                                    exit: "animate fadeOutDown"
+                                }
+                            })
+                            setInterval(window.location.replace('{{route('dashboard.books')}}'), 2500)
+
                         }
                     },
                     error: function (err) {
-                        console.log(err)
+                        let value = $.parseJSON(err.responseText);
+                        console.log(value)
+                        $.notify({
+                            title: "<strong>Error</strong>",
+                            message: value.message
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }, type: 'danger'
+                        })
                     }
                 });
             });

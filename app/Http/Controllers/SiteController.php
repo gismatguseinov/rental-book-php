@@ -67,7 +67,8 @@ class SiteController extends Controller
 
     public function profile()
     {
-
+        $user = Auth::user();
+        return view('profile', compact('user'));
     }
 
     public function myBorrowList()
@@ -82,8 +83,18 @@ class SiteController extends Controller
 
     public function search(Request $request)
     {
-        dd($request->all());
+        if ($request->query != '') {
+            $keyword = $request['query'];
+            $searchResult = Book::where('title', 'LIKE', '%' . $keyword . '%')->orWhere('author', 'LIKE', '%' . $keyword . '%')->get();
+            foreach ($searchResult as $item) {
+                $item['genres'] = $item->genres;
+            }
+            return response()->json($searchResult);
+        } else {
+            return response()->json([
+                'status' => false
+            ], 500);
+        }
     }
-
 
 }

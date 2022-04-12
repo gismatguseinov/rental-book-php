@@ -73,14 +73,29 @@
                 },
                 success: function (response) {
                     if (response.status === true) {
-                        alert('Successfully sent borrow request')
+                        $.notify({
+                            title: "<strong>Info</strong>",
+                            message: "Borrow request successfully sent"
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }
+                        })
                     }
                 },
                 error: function (err) {
                     let error = err.responseText.split(':')[1];
                     let errorMessage = error.replace('}', '').replaceAll('"', '')
-                    //err.responseText.split(':')[1]
-                    alert(errorMessage)
+                    $.notify({
+                        title: "<strong>Error</strong>",
+                        message: errorMessage
+                    }, {
+                        animate: {
+                            enter: "animate fadeInUp",
+                            exit: "animate fadeOutDown"
+                        }, type: 'danger'
+                    })
                 },
             });
         }

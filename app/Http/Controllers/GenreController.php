@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GenreRequest;
+use App\Http\Requests\UpdateGenre;
 use App\Models\Genre;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class GenreController extends Controller
@@ -35,14 +35,15 @@ class GenreController extends Controller
     {
         $genre = Genre::findOrFail($id);
         $genre?->delete();
-        DB::table('book_genre')->where('genre_id', $id)->delete();
+        DB::table('book_genres')->where('genre_id', $id)->delete();
         return response()->json([
             'status' => true
         ], 200);
     }
 
-    public function update(int $id, Request $request)
+    public function update(int $id, UpdateGenre $request)
     {
+        $validated = $request->validated();
         $genre = Genre::findOrFail($id);
         $genre?->update([
             'name' => $request->updateGenreName,
