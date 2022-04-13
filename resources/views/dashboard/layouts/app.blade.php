@@ -23,8 +23,8 @@
     <title>Laravel</title>
 </head>
 <body>
-<div class="container-fluid" style="max-width: 85%">
-    <div class="l-navbar" id="nav-bar" style="width: 13%">
+<div class="container-fluid" style="width: 85%">
+    <div class="l-navbar" id="nav-bar" style="width: 11%">
         <nav class="nav">
             <div class="nav_list">
                 <a href="{{route('site.index')}}" class="nav_link"> <i class='bx bx-layer nav_logo-icon'></i><span
@@ -32,18 +32,21 @@
                 </a>
                 <a href="{{route('dashboard.borrows')}}" class="nav_link"> <i class='bx bx-cube-alt'></i> <span
                         class="nav_name">Borrow Requests</span>
-                </a> <a href="{{route('dashboard.genres')}}" class="nav_link"> <i class='bx bxs-file-plus'></i>
+                </a>
+                <a href="{{route('dashboard.genres')}}" class="nav_link"> <i class='bx bxs-file-plus'></i>
                     <span
                         class="nav_name">Genres</span>
                 </a>
-                <a href="{{route('dashboard.books')}}" class="nav_link"> <i class='bx bxs-book-add'></i></a>
+                <a href="{{route('dashboard.books')}}" class="nav_link"> <i class='bx bxs-book-add'></i>
+                    <span class="nav_name">Books</span>
+                </a>
             </div>
             <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span>
             </a>
         </nav>
     </div>
     <!--Container Main start-->
-    <div class="container-fluid pb-4">
+    <div class="container-fluid pb-5 m-lg-2">
         @yield('content')
     </div>
 </div>

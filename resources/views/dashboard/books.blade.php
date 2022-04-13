@@ -64,23 +64,18 @@
         @if(count($books) > 0)
             <div class="row">
                 @foreach($books as $book)
-
-                    <div class="col">
-                        <div class="col-8 image">
-                            <img src="{{asset($book->cover_image)}}" width="100" height="100" alt="">
+                    <div class="card col-4" style="width: 18rem;">
+                        <div style="height: 396px !important;"l>
+                            <img class="card-img-top" src="{{asset($book->cover_image)}}">
                         </div>
-                        {{--                        {{route('dashboard.destroy-book',$book->id)}}--}}
-                        <div class="col-6 descr">
-                            <p>Title:{{$book->title}}</p>
-                            <p>Authors:{{$book->authors}}</p>
-                            <a class="btn btn-sm btn-success"
+                        <div class="card-body">
+                            <p class="card-text">{{$book->title}}</p>
+                            <p class="card-text">{{$book->authors}}</p>
+                        </div>
+                        <div class="mb-2">
+                            <a class="btn btn-success"
                                href="{{route('dashboard.single-book',$book->id)}}">Edit</a>
-                            <button id="{{$book->id}}" class="btn btn-sm deleteBook btn-warning">Delete</button>
-                        </div>
-                        <div class="col-8 genres">
-                            @foreach($book->genres as $genre)
-                                <span class="badge bg-{{$genre->style}}">{{$genre->name}}</span>
-                            @endforeach
+                            <button id="{{$book->id}}" class="btn deleteBook btn-warning">Delete</button>
                         </div>
                     </div>
                 @endforeach

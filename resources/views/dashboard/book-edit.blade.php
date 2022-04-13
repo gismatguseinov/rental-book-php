@@ -25,7 +25,7 @@
             <label for="genres[]" class="form-label">Genre</label>
             <select class="form-control" id="genres" name="genres[]" multiple="multiple">
                 @foreach($allGenres as $genre)
-                    <option value="{{$genre->style}}">{{$genre->name}}</option>
+                    <option value="{{$genre->id}}">{{$genre->name}}</option>
                 @endforeach
                 @foreach($selectedGenres as $selectedGenre)
                     <option selected value="{{$selectedGenre->style}}">{{$selectedGenre->name}}</option>

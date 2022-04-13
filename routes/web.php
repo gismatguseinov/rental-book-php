@@ -38,7 +38,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/delete/{id}', [GenreController::class, 'delete'])->where('id', '[0-9]+')->name('dashboard.delete-genre');
             Route::post('/edit/{id}', [GenreController::class, 'update'])->where('id', '[0-9]+')->name('dashboard.update-genre');
             Route::post('/add-genre', [GenreController::class, 'addGenre'])->name('dashboard.add-genre');
-
         });
 
         Route::prefix('/books')->group(function () {
@@ -55,10 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/reject/{id}', [BookController::class, 'reject'])->where('id', '[0-9]+')->name('dashboard.reject-borrow');
             Route::post('/accept/{id}', [BookController::class, 'accept'])->where('id', '[0-9]+')->name('dashboard.accept-borrow');
             Route::post('/return/{id}', [BookController::class, 'returnBorrow'])->where('id', '[0-9]+')->name('dashboard.return-borrow');
-
         });
-
-
     });
 });
 Auth::routes();

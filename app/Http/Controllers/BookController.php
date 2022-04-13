@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BookEditRequest;
 use App\Http\Requests\BookRequest;
 use App\Models\Book;
+use App\Models\BookGenre;
 use App\Models\Borrow;
 use App\Models\Genre;
 use Carbon\Carbon;
@@ -74,11 +75,11 @@ class BookController extends Controller
         ]);
         if ($update) {
             return response()->json([
-                'message' => true,
+                'status' => true,
             ], 200);
         } else {
             return response()->json([
-                'message' => false,
+                'status' => false,
             ], 500);
         }
 
@@ -110,7 +111,6 @@ class BookController extends Controller
                 }
             }
         }
-//        dd($allGenres,$selectedGenres);
         if ($book) {
             return view('dashboard.book-edit', compact(['book', 'allGenres', 'selectedGenres']));
         }
@@ -120,7 +120,6 @@ class BookController extends Controller
     {
         $validated = $bookRequest->validated();
         $book = Book::find($id);
-
         if ($book) {
             if (!isset($validated['cover_image'])) {
                 $coverImage = $book->cover_image;
@@ -145,6 +144,20 @@ class BookController extends Controller
                 'released_at' => $validated['released_at'],
                 'updated_at' => $cdata
             ]);
+
+            foreach ($validated['genres'] as $genre) {
+                $delete = BookGenre::where([
+                    'book_id' => $id,
+                    'genre_id' => $genre
+                ])->delete();
+            }
+            foreach ($validated['genres'] as $genre) {
+                $insert = BookGenre::create([
+                    'book_id' => $id,
+                    'genre_id' => $genre
+                ]);
+            }
+
             if ($data) {
                 return response()->json([
                     'status' => true

@@ -24,8 +24,8 @@ class UpdateGenre extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string'],
-            'style' => ['required', 'string']
+            'updateGenreName' => ['required', 'string'],
+            'updateGenreStyle' => ['required', 'string']
         ];
     }
 }

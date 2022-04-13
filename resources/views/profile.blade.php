@@ -25,7 +25,7 @@
                                 <div class="form-group">
                                     <label class="form-label">Role</label>
                                     <input readonly type="text" class="form-control"
-                                           value="{{$user->is_librarian = 1 ? 'Librarian' : 'Reader'}}">
+                                           value="{{$user->is_librarian == 1 ? 'Librarian' : 'Reader'}}">
                                 </div>
                             </div>
 

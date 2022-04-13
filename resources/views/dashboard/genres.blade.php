@@ -79,14 +79,6 @@
                     <input type="text" name="updateGenreName" id="updateGenreName" class="form-control">
                     <br>
                     <select name="updateStyle" id="updateStyle" class="form-select">
-                        <option value="primary">Primary</option>
-                        <option value="secondary">Secondary</option>
-                        <option value="success">Success</option>
-                        <option value="danger">Danger</option>
-                        <option value="warning">Warning</option>
-                        <option value="info">Info</option>
-                        <option value="dark">Dark</option>
-                        <option value="light">Light</option>
                     </select>
                 </div>
 
@@ -142,6 +134,17 @@
         })
 
         $('.edit').on('click', function () {
+            let genreList = {
+                primary: 'Primary',
+                secondary: 'Secondary',
+                success: 'Success',
+                danger: 'Danger',
+                warning: 'Warning',
+                info: 'Info',
+                dark: 'Dark',
+                light: 'Light',
+            }
+
             let id = this.id;
             let url = '{{route('dashboard.single-genre',':id')}}'
             url = url.replace(':id', id);
@@ -153,9 +156,19 @@
                     $('.update').attr('id', response.id)
                     let str = response.style
                     let result = str.replace(/\b\w/g, x => x.toUpperCase());
-                    $('#updateStyle').append(`<option selected value="${response.style}">
+                    $.each()
+                    for (const [key, value] of Object.entries(genreList)) {
+                        if (value == result) {
+                            $('#updateStyle').append(`<option selected value="${response.style}">
                                        ${result}
                                   </option>`);
+                        } else {
+                            $('#updateStyle').append(`<option value="${key}">
+                                       ${value}
+                                  </option>`);
+                        }
+                    }
+
                 },
                 error: function (err) {
                     console.log(err)
@@ -179,6 +192,7 @@
                 },
                 success: function (response) {
                     if (response.status === true) {
+                        $('#updateStyle').empty()
                         $.notify({
                             title: "<strong>Info</strong>",
                             message: "Successfully Accepted"

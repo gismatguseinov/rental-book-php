@@ -98,7 +98,16 @@
                         }
                     },
                     error: function (err) {
-                        console.log(err)
+                        let value = $.parseJSON(err.responseText);
+                        $.notify({
+                            title: "<strong>Error</strong>",
+                            message: value.message
+                        }, {
+                            animate: {
+                                enter: "animate fadeInUp",
+                                exit: "animate fadeOutDown"
+                            }, type: 'danger'
+                        })
                     }
                 });
                 $('input[name=deadline]').val('')
@@ -117,6 +126,7 @@
                 },
                 method: 'POST',
                 success: function (response) {
+                    console.log(response)
                     if (response.status === true) {
                         $.notify({
                             title: "<strong>Info</strong>",
@@ -125,13 +135,22 @@
                             animate: {
                                 enter: "animate fadeInUp",
                                 exit: "animate fadeOutDown"
-                            }, type: 'danger'
+                            }
                         })
-                        setInterval(window.location.replace('{{route('dashboard.borrows')}}'), 2000)
+                        setInterval(window.location.replace('{{route('dashboard.borrows')}}'), 1000)
                     }
                 },
                 error: function (err) {
-                    console.log(err)
+                    let value = $.parseJSON(err.responseText);
+                    $.notify({
+                        title: "<strong>Error</strong>",
+                        message: value.message
+                    }, {
+                        animate: {
+                            enter: "animate fadeInUp",
+                            exit: "animate fadeOutDown"
+                        }, type: 'danger'
+                    })
                 }
             });
 
@@ -162,7 +181,16 @@
                     }
                 },
                 error: function (err) {
-                    console.log(err)
+                    let value = $.parseJSON(err.responseText);
+                    $.notify({
+                        title: "<strong>Error</strong>",
+                        message: value.message
+                    }, {
+                        animate: {
+                            enter: "animate fadeInUp",
+                            exit: "animate fadeOutDown"
+                        }, type: 'danger'
+                    })
                 }
             });
 
