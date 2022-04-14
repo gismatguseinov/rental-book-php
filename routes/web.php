@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/about-us', [SiteController::class, 'aboutUs'])->name('site.about-us');
     Route::get('/search', [SiteController::class, 'search'])->name('site.search');
     Route::get('/profile', [SiteController::class, 'profile'])->name('site.profile');
+    Route::get('/genre-list', [SiteController::class, 'genreList'])->name('site.genre-list');
 
     Route::group(['prefix' => 'dashboard', 'middleware' => 'librarian'], function () {
 

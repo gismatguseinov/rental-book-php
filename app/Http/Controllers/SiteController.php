@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\BookGenre;
 use App\Models\Borrow;
 use App\Models\Genre;
 use App\Models\User;
@@ -95,6 +96,20 @@ class SiteController extends Controller
                 'status' => false
             ], 500);
         }
+    }
+
+    public function genreList()
+    {
+        $genres = Genre::all();
+        foreach ($genres as $key => $genre) {
+            $genreBooks = BookGenre::select('book_id as book')->where('genre_id', $genre->id)->get();
+            foreach ($genreBooks as $genreBook) {
+                $genreBook['book'] = Book::find($genreBook->book);
+            }
+            $genre['books'] = $genreBooks;
+        }
+//        dd($genres);
+        return view('genre-list', compact('genres'));
     }
 
 }

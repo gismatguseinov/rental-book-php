@@ -55,6 +55,9 @@
                                                 <a class="nav-link" href="{{route('site.books')}}">Books</a>
                                             </li>
                                             <li class="nav-item">
+                                                <a class="nav-link" href="{{route('site.genre-list')}}">Genres</a>
+                                            </li>
+                                            <li class="nav-item">
                                                 <a class="nav-link" href="{{route('site.borrow-list')}}">My
                                                     Borrows</a>
                                             </li>
